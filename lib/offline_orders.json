@@ -1,0 +1,38 @@
+[
+  {
+    "customerName": "raa ra",
+    "customerEmail": "ragavan.aero27@gmail.com",
+    "customerPhone": "936079719",
+    "address": "dah, salem, tamil nadu - 637502",
+    "items": [
+      {
+        "product": "8",
+        "quantity": 1,
+        "priceAtPurchase": 3200
+      }
+    ],
+    "totalAmount": 3200,
+    "paymentMethod": "Cash on Delivery",
+    "status": "shipped",
+    "_id": "offline_1770532111805",
+    "createdAt": "2026-02-08T06:28:31.805Z"
+  },
+  {
+    "customerName": "raa ra",
+    "customerEmail": "ragavan.aero27@gmail.com",
+    "customerPhone": "936079719",
+    "address": "dah, salem, tamil nadu - 637502",
+    "items": [
+      {
+        "product": "8",
+        "quantity": 1,
+        "priceAtPurchase": 3200
+      }
+    ],
+    "totalAmount": 3200,
+    "paymentMethod": "Cash on Delivery",
+    "status": "shipped",
+    "_id": "offline_1770532111798",
+    "createdAt": "2026-02-08T06:28:31.799Z"
+  }
+]

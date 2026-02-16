@@ -77,7 +77,6 @@ export default function NewProductPage() {
 
             const result = await res.json();
             if (result.success) {
-                (addProduct as any)({ ...productData, _id: result.data._id }); // Still sync to local for now
                 alert('Product added successfully!');
                 router.push('/admin/products');
             } else {

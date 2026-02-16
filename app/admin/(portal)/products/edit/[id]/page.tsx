@@ -36,9 +36,6 @@ export default function EditProductPage() {
                 const contentData = await contentRes.json();
                 if (contentData.success && contentData.data && contentData.data.sareeTypes) {
                     setSareeTypes(contentData.data.sareeTypes);
-                } else {
-                    const content = getSiteContent();
-                    setSareeTypes(content.sareeTypes);
                 }
 
                 // Fetch product
@@ -56,24 +53,14 @@ export default function EditProductPage() {
                         isVerified: product.isVerified
                     });
                 } else {
-                    const product = getProductById(productId);
-                    if (product) {
-                        setFormData({
-                            name: product.name,
-                            description: product.description,
-                            price: product.price.toString(),
-                            material: product.material,
-                            shopName: product.shopName || '',
-                            images: product.images,
-                            isVerified: product.isVerified
-                        });
-                    } else {
-                        alert('Product not found');
-                        router.push('/admin/products');
-                    }
+                    console.error("Failed to fetch product:", productData.error);
+                    alert('Product not found or failed to load');
+                    router.push('/admin/products');
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
+                alert('Error loading product data');
+                router.push('/admin/products');
             }
         };
         fetchData();
@@ -108,7 +95,6 @@ export default function EditProductPage() {
 
             const result = await res.json();
             if (result.success) {
-                updateProduct(productId, productUpdate); // Still sync to local
                 alert('Product updated successfully!');
                 router.push('/admin/products');
             } else {

@@ -3,6 +3,8 @@ import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { getProducts } from '@/lib/dataStore';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
     try {
         await dbConnect();
@@ -34,19 +36,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: products });
     } catch (error: any) {
         console.error('Error fetching products:', error);
-
-        // Fallback to mock products
-        const { searchParams } = new URL(request.url);
-        const manufacturerId = searchParams.get('manufacturerId');
-
-        let products = getProducts();
-        if (manufacturerId) {
-            products = products.filter(p => p.manufacturerId === manufacturerId);
-        } else {
-            products = products.filter(p => p.isVerified);
-        }
-
-        return NextResponse.json({ success: true, data: products });
+        return NextResponse.json({ success: false, error: 'Failed to fetch products from database' }, { status: 500 });
     }
 }
 

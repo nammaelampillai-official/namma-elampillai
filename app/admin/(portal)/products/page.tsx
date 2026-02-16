@@ -35,20 +35,11 @@ export default function AdminProductsPage() {
             if (result.success) {
                 setProducts(result.data);
             } else {
-                let localProducts = getProducts();
-                if (manufacturerId) {
-                    localProducts = localProducts.filter(p => p.manufacturerId === manufacturerId);
-                }
-                setProducts(localProducts);
+                console.error("Failed to load products:", result.error);
+                // Optionally set an error state here to show UI
             }
         } catch (error) {
             console.error('Error loading products:', error);
-            const manufacturerId = localStorage.getItem('manufacturer_id');
-            let localProducts = getProducts();
-            if (manufacturerId) {
-                localProducts = localProducts.filter(p => p.manufacturerId === manufacturerId);
-            }
-            setProducts(localProducts);
         } finally {
             setLoading(false);
         }

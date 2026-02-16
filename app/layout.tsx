@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Lato } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
@@ -20,9 +20,18 @@ const lato = Lato({
   weight: ["400", "700"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#800000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
   title: "Namma Elampillai | Heritage Saree Marketplace",
   description: "Authentic Elampillai Silk Sarees directly from weavers.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -33,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${lato.variable} antialiased font-sans bg-gray-50 text-gray-900`}
+        className={`${playfair.variable} ${lato.variable} antialiased font-sans bg-background text-foreground`}
       >
         <AuthProvider>
           <CartProvider>

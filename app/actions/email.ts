@@ -178,20 +178,21 @@ export async function sendOrderStatusUpdate(orderId: string, customerName: strin
                 <p>You can track your order in your dashboard or contact us if you have any questions.</p>
                 
                 <div style="text-align: center; margin-top: 40px;">
-                    <a href="http://localhost:3000/orders" style="background: #800020; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">View Order Status</a>
+                    <a href={`${ process.env.NEXT_PUBLIC_APP_URL || 'https://namma-elampillai.vercel.app'
+} /orders`} style="background: #800020; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">View Order Status</a >
+    </div>
+    </div>
+
+    < div style = "background: #f9f9f9; padding: 20px; text-align: center; font-size: 12px; color: #999; border-top: 1px solid #eee;" >
+        <p>© 2025 Namma Elampillai - Authentic Handwoven Sarees </p>
+            < p > Elampillai, Salem District, Tamil Nadu </p>
                 </div>
-            </div>
-            
-            <div style="background: #f9f9f9; padding: 20px; text-align: center; font-size: 12px; color: #999; border-top: 1px solid #eee;">
-                <p>© 2025 Namma Elampillai - Authentic Handwoven Sarees</p>
-                <p>Elampillai, Salem District, Tamil Nadu</p>
-            </div>
-        </div>
-    `;
+                </div>
+                    `;
 
     return await sendEmail({
         to: customerEmail,
-        subject: `Update on your Order #${orderId.slice(-6).toUpperCase()} - ${newStatus.toUpperCase()}`,
+        subject: `Update on your Order #${ orderId.slice(-6).toUpperCase() } - ${ newStatus.toUpperCase() } `,
         html
     });
 }

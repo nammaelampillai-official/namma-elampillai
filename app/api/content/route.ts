@@ -3,6 +3,8 @@ import dbConnect from '@/lib/db';
 import SiteContent from '@/models/SiteContent';
 import { DEFAULT_SITE_CONTENT } from '@/lib/dataStore';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         await dbConnect();
@@ -30,6 +32,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ success: true, data: content });
     } catch (error: any) {
+        console.error('Error saving site content:', error);
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }

@@ -44,20 +44,7 @@ const SiteContentSchema: Schema = new Schema({
     siteName: { type: String, required: true },
     logo: { type: String, required: true },
     paymentQR: { type: String, default: '/gpay-qr.png' },
-    checkoutSettings: {
-        type: {
-            isCodEnabled: { type: Boolean, default: true },
-            freeShippingThreshold: { type: Number, default: 2000 },
-            shippingCharge: { type: Number, default: 100 },
-            estimatedDeliveryDays: { type: String, default: '5-7 Days' }
-        },
-        default: {
-            isCodEnabled: true,
-            freeShippingThreshold: 2000,
-            shippingCharge: 100,
-            estimatedDeliveryDays: '5-7 Days'
-        }
-    }
+    checkoutSettings: { type: Object, default: {} }
 }, { timestamps: true });
 
 const SiteContent: Model<ISiteContent> = mongoose.models.SiteContent || mongoose.model<ISiteContent>('SiteContent', SiteContentSchema);

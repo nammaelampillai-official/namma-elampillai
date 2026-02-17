@@ -4,6 +4,8 @@ import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
 import { getSiteContentServer, getProductsServer } from "@/lib/server/data";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const content = await getSiteContentServer();
   const products = await getProductsServer();

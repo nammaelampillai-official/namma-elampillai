@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import dbConnect from '@/lib/db';
 import SiteContent from '@/models/SiteContent';
 import { DEFAULT_SITE_CONTENT } from '@/lib/dataStore';
@@ -35,6 +36,10 @@ export async function POST(request: Request) {
         } else {
             content = await SiteContent.create(body);
         }
+
+        // Revalidate the frontend to show changes immediately
+        revalidatePath('/', 'layout');
+        revalidatePath('/about');
 
         return NextResponse.json({ success: true, data: content });
     } catch (error: any) {

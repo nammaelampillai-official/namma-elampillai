@@ -8,6 +8,7 @@ export interface IProduct extends Document {
     material: string;
     manufacturerId: mongoose.Types.ObjectId;
     isVerified: boolean;
+    colors?: string[];
     createdAt: Date;
 }
 
@@ -19,6 +20,7 @@ const ProductSchema: Schema = new Schema({
     material: { type: String, required: true },
     manufacturerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Manufacturer', required: true },
     isVerified: { type: Boolean, default: false },
+    colors: { type: [String], default: [] },
 }, { timestamps: true });
 
 const Product: Model<IProduct> = mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);

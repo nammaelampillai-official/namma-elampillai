@@ -308,6 +308,11 @@ export default async function Home() {
                 Follow Us on Instagram
               </Button>
             </Link>
+            <Link href="https://facebook.com/nammaelampillai" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-[#1877F2] text-white hover:bg-[#1877F2]/90 px-8 py-6 text-lg rounded-2xl shadow-xl shadow-[#1877F2]/20 w-full sm:w-auto">
+                Follow Us on Facebook
+              </Button>
+            </Link>
             <Link href="https://www.youtube.com/@Namma_Elampillai" target="_blank" rel="noopener noreferrer">
               <Button className="bg-[#FF0000] text-white hover:bg-[#FF0000]/90 px-8 py-6 text-lg rounded-2xl shadow-xl shadow-[#FF0000]/20 w-full sm:w-auto">
                 Follow Us on YouTube

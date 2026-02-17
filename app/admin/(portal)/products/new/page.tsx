@@ -21,7 +21,8 @@ export default function NewProductPage() {
         material: '',
         shopName: '',
         images: [] as string[],
-        isVerified: true
+        isVerified: true,
+        colors: ''
     });
 
     useEffect(() => {
@@ -66,7 +67,8 @@ export default function NewProductPage() {
                 shopName: formData.shopName,
                 images: formData.images,
                 manufacturerId: '65c2a1e4e4b0a1a1a1a1a1a1', // Example Mongo ID, or use a real admin ID
-                isVerified: formData.isVerified
+                isVerified: formData.isVerified,
+                colors: formData.colors ? formData.colors.split(',').map(c => c.trim()).filter(c => c !== '') : []
             };
 
             const res = await fetch('/api/products', {
@@ -171,6 +173,17 @@ export default function NewProductPage() {
                             value={formData.shopName}
                             onChange={(e) => setFormData({ ...formData, shopName: e.target.value })}
                         />
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="colors">Available Colors (comma separated)</Label>
+                        <Input
+                            id="colors"
+                            placeholder="e.g., Royal Blue, Gold, Maroon"
+                            value={formData.colors}
+                            onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
+                        />
+                        <p className="text-xs text-gray-500">Enter colors separated by commas (e.g., Red, Green, Blue)</p>
                     </div>
 
                     <div className="space-y-2">

@@ -25,7 +25,8 @@ export default function EditProductPage() {
         material: 'Pure Silk',
         shopName: '',
         images: [] as string[],
-        isVerified: true
+        isVerified: true,
+        colors: ''
     });
 
     useEffect(() => {
@@ -50,7 +51,8 @@ export default function EditProductPage() {
                         material: product.material,
                         shopName: product.shopName || '',
                         images: product.images,
-                        isVerified: product.isVerified
+                        isVerified: product.isVerified,
+                        colors: product.colors ? product.colors.join(', ') : ''
                     });
                 } else {
                     console.error("Failed to fetch product:", productData.error);
@@ -84,7 +86,8 @@ export default function EditProductPage() {
                 material: formData.material,
                 shopName: formData.shopName,
                 images: formData.images,
-                isVerified: formData.isVerified
+                isVerified: formData.isVerified,
+                colors: formData.colors ? formData.colors.split(',').map(c => c.trim()).filter(c => c !== '') : []
             };
 
             const res = await fetch(`/api/products/${productId}`, {
@@ -189,6 +192,17 @@ export default function EditProductPage() {
                             value={formData.shopName}
                             onChange={(e) => setFormData({ ...formData, shopName: e.target.value })}
                         />
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="colors">Available Colors (comma separated)</Label>
+                        <Input
+                            id="colors"
+                            placeholder="e.g., Royal Blue, Gold, Maroon"
+                            value={formData.colors}
+                            onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
+                        />
+                        <p className="text-xs text-gray-500">Enter colors separated by commas (e.g., Red, Green, Blue)</p>
                     </div>
 
                     <div className="space-y-2">

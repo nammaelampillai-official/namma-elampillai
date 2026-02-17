@@ -9,6 +9,7 @@ export interface CartItem {
     price: number;
     image: string;
     quantity: number;
+    color?: string;
 }
 
 interface CartContextType {
@@ -51,10 +52,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const addToCart = (product: any) => {
         setItems(prev => {
-            const existing = prev.find(item => item._id === product._id);
+            const existing = prev.find(item => item._id === product._id && item.color === product.selectedColor);
             if (existing) {
                 return prev.map(item =>
-                    item._id === product._id
+                    (item._id === product._id && item.color === product.selectedColor)
                         ? { ...item, quantity: item.quantity + 1 }
                         : item
                 );
@@ -64,7 +65,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 name: product.name,
                 price: product.price,
                 image: product.images?.[0] || '',
-                quantity: 1
+                quantity: 1,
+                color: product.selectedColor
             }];
         });
         setIsCartOpen(true); // Open cart when item is added

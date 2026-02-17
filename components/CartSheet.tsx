@@ -70,9 +70,10 @@ export default function CartSheet() {
                                 </div>
                                 <button
                                     onClick={() => removeFromCart(item._id)}
-                                    className="absolute top-0 right-0 p-2 text-gray-400 hover:text-red-500 transition-colors"
+                                    className="absolute -top-1 -right-1 p-3 text-gray-400 hover:text-red-500 transition-colors"
+                                    aria-label="Remove item"
                                 >
-                                    <Trash2 className="w-4 h-4" />
+                                    <Trash2 className="w-5 h-5" />
                                 </button>
                             </div>
                         ))

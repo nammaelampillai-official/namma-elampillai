@@ -30,7 +30,7 @@ export default function AboutPage() {
 
                 {/* Hero Section */}
                 <section className="text-center space-y-6">
-                    <h1 className="text-5xl font-serif font-bold text-heritage-maroon">{about.title}</h1>
+                    <h1 className="text-3xl md:text-5xl font-serif font-bold text-heritage-maroon">{about.title}</h1>
                     <div className="relative h-64 md:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl mt-8 ring-1 ring-heritage-gold/20">
                         <Image
                             src={about.image || '/images/heritage-hero.png'}
@@ -43,7 +43,7 @@ export default function AboutPage() {
                 </section>
 
                 {/* Main Story */}
-                <section className="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-heritage-gold/10">
+                <section className="bg-white p-6 md:p-12 rounded-2xl shadow-sm border border-heritage-gold/10">
                     <div className="prose prose-lg mx-auto text-gray-700 leading-relaxed font-serif text-justify">
                         {about.description.split('\n').map((paragraph, idx) => (
                             <p key={idx} className="mb-4">{paragraph}</p>
@@ -58,7 +58,7 @@ export default function AboutPage() {
                         <div className="w-12 h-12 bg-heritage-maroon text-white rounded-lg flex items-center justify-center mb-6 shadow-md">
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                         </div>
-                        <h2 className="text-2xl font-serif font-bold text-heritage-maroon mb-4">Our Mission</h2>
+                        <h2 className="text-xl font-serif font-bold text-heritage-maroon mb-4">Our Mission</h2>
                         <p className="text-gray-700">{about.mission}</p>
                     </div>
 
@@ -74,7 +74,7 @@ export default function AboutPage() {
 
                 {/* Footer/Quote */}
                 <section className="text-center py-12 border-t border-heritage-gold/20">
-                    <blockquote className="text-3xl font-serif text-gray-500 italic max-w-2xl mx-auto">
+                    <blockquote className="text-xl md:text-3xl font-serif text-gray-500 italic max-w-2xl mx-auto">
                         "We don't just sell sarees; we share a piece of our history."
                     </blockquote>
                 </section>

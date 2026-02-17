@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: Props) {
                         </div>
                     )}
 
-                    <h1 className="text-4xl font-serif font-bold text-heritage-maroon mb-4">{product.name}</h1>
+                    <h1 className="text-3xl md:text-4xl font-serif font-bold text-heritage-maroon mb-4">{product.name}</h1>
                     <p className="text-2xl font-bold text-gray-900 mb-6">₹{product.price.toLocaleString('en-IN')}</p>
 
                     <div className="prose prose-stone mb-8">
@@ -72,12 +72,12 @@ export default async function ProductPage({ params }: Props) {
                         <p>{product.material}</p>
                     </div>
 
-                    <div className="flex gap-4">
-                        <Button size="lg" className="flex-1 gap-2 bg-heritage-maroon text-heritage-gold border border-heritage-gold hover:bg-heritage-maroon/90">
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Button size="lg" className="flex-1 w-full gap-2 bg-heritage-maroon text-heritage-gold border border-heritage-gold hover:bg-heritage-maroon/90">
                             <ShoppingCart className="w-5 h-5" />
                             Add to Cart
                         </Button>
-                        <Button size="lg" variant="secondary" className="flex-1">
+                        <Button size="lg" variant="secondary" className="flex-1 w-full">
                             Buy Now
                         </Button>
                     </div>

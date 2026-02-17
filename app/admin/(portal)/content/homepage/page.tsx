@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import ImageUpload from '@/components/admin/ImageUpload';
-import { getSiteContent, saveSiteContent, type SiteContent } from '@/lib/dataStore';
+import { getSiteContent, saveSiteContent, type SiteContent, DEFAULT_SITE_CONTENT } from '@/lib/dataStore';
 import { Save, Eye } from 'lucide-react';
 
 const ICON_OPTIONS = [
@@ -27,7 +27,7 @@ export default function HomepageContentPage() {
                 const res = await fetch('/api/content');
                 const result = await res.json();
                 if (result.success && result.data) {
-                    setContent(result.data);
+                    setContent({ ...DEFAULT_SITE_CONTENT, ...result.data });
                 } else {
                     // Fallback to local if API fails or is empty during migration
                     setContent(getSiteContent());
@@ -60,7 +60,9 @@ export default function HomepageContentPage() {
             }
         } catch (error) {
             console.error('Error saving content:', error);
-            alert('Failed to save content');
+            // Fallback to local storage if API fails (e.g., DB not connected)
+            saveSiteContent(content);
+            alert(`Database connection failed (${error instanceof Error ? error.message : 'Unknown Error'}). Content saved to Local Storage instead.`);
         } finally {
             setLoading(false);
         }

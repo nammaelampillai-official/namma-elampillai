@@ -155,6 +155,9 @@ export async function sendOrderStatusUpdate(orderId: string, customerName: strin
             break;
     }
 
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://namma-elampillai.vercel.app';
+    const orderUrl = `${appUrl}/orders`;
+
     const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; border: 1px solid #f0f0f0; border-radius: 10px; overflow: hidden;">
             <div style="background: #800020; padding: 30px; text-align: center; color: white;">
@@ -178,8 +181,7 @@ export async function sendOrderStatusUpdate(orderId: string, customerName: strin
                 <p>You can track your order in your dashboard or contact us if you have any questions.</p>
                 
                 <div style="text-align: center; margin-top: 40px;">
-                    <a href={`${ process.env.NEXT_PUBLIC_APP_URL || 'https://namma-elampillai.vercel.app'
-} /orders`} style="background: #800020; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">View Order Status</a >
+                    <a href="${orderUrl}" style="background: #800020; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">View Order Status</a >
     </div>
     </div>
 
@@ -192,7 +194,7 @@ export async function sendOrderStatusUpdate(orderId: string, customerName: strin
 
     return await sendEmail({
         to: customerEmail,
-        subject: `Update on your Order #${ orderId.slice(-6).toUpperCase() } - ${ newStatus.toUpperCase() } `,
+        subject: `Update on your Order #${orderId.slice(-6).toUpperCase()} - ${newStatus.toUpperCase()} `,
         html
     });
 }

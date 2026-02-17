@@ -29,10 +29,10 @@ export default async function Home() {
         </div>
 
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-tight drop-shadow-md">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold mb-6 tracking-tight drop-shadow-md">
             {hero.title}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-light text-heritage-cream drop-shadow-sm">
+          <p className="text-lg md:text-2xl mb-8 max-w-2xl mx-auto font-light text-heritage-cream drop-shadow-sm">
             {hero.subtitle}
           </p>
           <div className="flex gap-4 justify-center">
@@ -51,10 +51,10 @@ export default async function Home() {
       </section>
 
       {/* Visual Categories Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-background relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-bold text-heritage-maroon mb-4">Our Categories</h2>
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-heritage-maroon dark:text-heritage-gold mb-4">Our Categories</h2>
             <div className="w-24 h-1 bg-heritage-gold mx-auto"></div>
           </div>
 
@@ -81,12 +81,12 @@ export default async function Home() {
       </section>
 
       {/* Sarees by Price Section */}
-      <section className="py-24 bg-heritage-cream/10 relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-heritage-cream/10 dark:bg-muted/10 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-heritage-gold/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-bold text-heritage-maroon mb-4">Sarees by Price</h2>
-            <p className="text-gray-500 mb-4">Fine silk for every budget</p>
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-heritage-maroon dark:text-heritage-gold mb-4">Sarees by Price</h2>
+            <p className="text-muted-foreground mb-4">Fine silk for every budget</p>
             <div className="w-24 h-1 bg-heritage-gold mx-auto"></div>
           </div>
 
@@ -113,7 +113,7 @@ export default async function Home() {
       </section>
 
       {/* Feature Cards Section */}
-      <section className="py-24 bg-white">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {featureCards.map((card: any) => (
@@ -137,12 +137,12 @@ export default async function Home() {
       </section>
 
       {/* Latest Products Section */}
-      <section className="py-24 bg-white">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-12 md:mb-16 gap-6">
             <div className="max-w-xl">
-              <h2 className="text-4xl font-serif font-bold text-heritage-maroon mb-4">Latest Arrivals</h2>
-              <p className="text-gray-600">Explore our newest handpicked collections, fresh from the master weavers of Elampillai.</p>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-heritage-maroon dark:text-heritage-gold mb-4">Latest Arrivals</h2>
+              <p className="text-muted-foreground">Explore our newest handpicked collections, fresh from the master weavers of Elampillai.</p>
             </div>
             <Link href="/products">
               <Button variant="outline" className="border-heritage-maroon text-heritage-maroon hover:bg-heritage-maroon hover:text-white transition-colors px-8">
@@ -175,7 +175,7 @@ export default async function Home() {
               <div className="inline-block px-4 py-1 bg-heritage-gold/20 rounded-full border border-heritage-gold/30">
                 <span className="text-heritage-gold text-sm font-bold uppercase tracking-widest">Village of Weavers</span>
               </div>
-              <h2 className="text-5xl md:text-6xl font-serif font-bold tracking-tight">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold tracking-tight">
                 Heart of <span className="text-heritage-gold italic">Elampillai</span>
               </h2>
               <p className="text-xl text-heritage-cream/80 leading-relaxed font-light">
@@ -249,7 +249,7 @@ export default async function Home() {
       </section>
 
       {/* YouTube Feed Section */}
-      <section className="py-24 bg-white">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-serif font-bold text-heritage-maroon mb-4">{youtubeFeed.title}</h2>

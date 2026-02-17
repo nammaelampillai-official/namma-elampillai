@@ -146,14 +146,14 @@ export default function CheckoutPage() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-serif font-bold text-heritage-maroon mb-8">Checkout</h1>
+            <h1 className="text-2xl md:text-3xl font-serif font-bold text-heritage-maroon mb-8">Checkout</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Checkout Form */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Shipping Details */}
-                    <section className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                    <section className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center gap-2">
                             <span className="w-8 h-8 rounded-full bg-heritage-maroon text-white flex items-center justify-center text-sm">1</span>
                             Shipping Details
                         </h2>
@@ -200,8 +200,8 @@ export default function CheckoutPage() {
 
                 {/* Payment Method */}
                 <div className="lg:col-span-2 space-y-8">
-                    <section className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                    <section className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h2 className="text-lg md:text-xl font-bold mb-4 flex items-center gap-2">
                             <span className="w-8 h-8 rounded-full bg-heritage-maroon text-white flex items-center justify-center text-sm">2</span>
                             Payment Method
                         </h2>
@@ -247,13 +247,13 @@ export default function CheckoutPage() {
                                     <h3 className="text-lg font-bold text-gray-800 mb-2">Pay with GPay</h3>
                                     <p className="text-sm text-gray-600 mb-2">Scan the QR code below to complete your payment</p>
                                     <p className="text-lg font-bold text-heritage-maroon mb-4 bg-white/50 py-1 rounded inline-block px-4">Total: ₹{finalTotal.toLocaleString('en-IN')}</p>
-                                    <div className="bg-white p-4 rounded-lg inline-block shadow-md">
+                                    <div className="bg-white p-2 md:p-4 rounded-lg inline-block shadow-md">
                                         <Image
                                             src={paymentQR}
                                             alt="GPay QR Code"
-                                            width={200}
-                                            height={200}
-                                            className="mx-auto"
+                                            width={150}
+                                            height={150}
+                                            className="mx-auto md:w-[200px] md:h-[200px]"
                                         />
                                     </div>
                                     <p className="text-xs text-gray-500 mt-3">After payment, click "Place Order" below</p>

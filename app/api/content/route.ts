@@ -21,6 +21,12 @@ export async function POST(request: Request) {
         await dbConnect();
         const body = await request.json();
 
+        // Remove DB-managed fields to prevent modification errors
+        delete body._id;
+        delete body.createdAt;
+        delete body.updatedAt;
+        delete body.__v;
+
         let content = await SiteContent.findOne().sort({ createdAt: -1 });
 
         if (content) {

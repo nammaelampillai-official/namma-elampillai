@@ -21,11 +21,15 @@ export async function sendEmail({ subject, html, to }: { subject: string; html: 
     try {
         // Create transporter dynamic to ensure env vars are fresh
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // use SSL
             auth: {
                 user: process.env.GMAIL_USER,
                 pass: process.env.GMAIL_APP_PASSWORD,
             },
+            // Add a timeout to prevent hanging
+            connectionTimeout: 10000,
         });
 
         const info = await transporter.sendMail({

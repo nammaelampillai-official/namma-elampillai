@@ -15,7 +15,9 @@ export async function GET() {
         usingFallbackName: !process.env.GMAIL_APP_PASSWORD && !!process.env.GMAIL_PASSWORD,
         user: process.env.GMAIL_USER ? `${process.env.GMAIL_USER.substring(0, 3)}...` : 'not set',
         passLength: gmailPassword ? gmailPassword.length : 0,
-        availableKeys: allEnvKeys.filter(key => key.includes('GMAIL') || key.includes('NEXT_PUBLIC') || key.includes('MONGO')),
+        vercelEnv: process.env.VERCEL_ENV || 'unknown',
+        vercelUrl: process.env.VERCEL_URL || 'unknown',
+        allKeysSample: allEnvKeys.slice(0, 15), // Show first 15 keys to see what IS there
     };
 
     try {

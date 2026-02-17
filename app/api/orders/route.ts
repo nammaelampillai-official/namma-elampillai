@@ -121,16 +121,28 @@ export async function POST(request: Request) {
             const order = await Order.create(orderData);
             console.log('Order created successfully:', order._id);
 
-            // Send email notification from server (don't await to avoid blocking response)
-            sendOrderNotification({
-                orderId: order._id.toString(),
-                customerName: order.customerName,
-                customerEmail: order.customerEmail,
-                items: body.items, // Original items with names/prices
-                total: order.totalAmount,
-                paymentMethod: order.paymentMethod,
-                shippingAddress: order.address
-            }).catch(err => console.error('Failed to send order email:', err));
+            // Send email notification from server
+            try {
+                const orderNotificationData = {
+                    orderId: order._id.toString(),
+                    customerName: order.customerName,
+                    customerEmail: order.customerEmail,
+                    items: body.items,
+                    total: order.totalAmount,
+                    paymentMethod: order.paymentMethod,
+                    shippingAddress: order.address
+                };
+
+                // Send to Admin
+                await sendOrderNotification(orderNotificationData);
+
+                // Send to Customer
+                if (order.customerEmail) {
+                    await sendOrderConfirmationToCustomer(orderNotificationData);
+                }
+            } catch (emailErr) {
+                console.error('Failed to send order email notices:', emailErr);
+            }
 
             return NextResponse.json({
                 success: true,
@@ -141,15 +153,27 @@ export async function POST(request: Request) {
             saveOfflineOrder(orderData);
 
             // Even for offline/local storage orders, try to send the email alert
-            sendOrderNotification({
-                orderId: `OFFLINE_${Date.now().toString().slice(-4)}`,
-                customerName: orderData.customerName,
-                customerEmail: orderData.customerEmail,
-                items: body.items,
-                total: orderData.totalAmount,
-                paymentMethod: orderData.paymentMethod,
-                shippingAddress: orderData.address
-            }).catch(err => console.error('Failed to send offline order email:', err));
+            try {
+                const offlineNotificationData = {
+                    orderId: `OFFLINE_${Date.now().toString().slice(-4)}`,
+                    customerName: orderData.customerName,
+                    customerEmail: orderData.customerEmail,
+                    items: body.items,
+                    total: orderData.totalAmount,
+                    paymentMethod: orderData.paymentMethod,
+                    shippingAddress: orderData.address
+                };
+
+                // Send to Admin
+                await sendOrderNotification(offlineNotificationData);
+
+                // Send to Customer
+                if (orderData.customerEmail) {
+                    await sendOrderConfirmationToCustomer(offlineNotificationData);
+                }
+            } catch (emailErr) {
+                console.error('Failed to send offline order email notices:', emailErr);
+            }
 
             return NextResponse.json({
                 success: true,
@@ -165,7 +189,7 @@ export async function POST(request: Request) {
     }
 }
 
-import { sendOrderStatusUpdate } from '@/app/actions/email';
+import { sendOrderStatusUpdate, sendOrderConfirmationToCustomer } from '@/app/actions/email';
 
 export async function PATCH(request: Request) {
     console.log('--- PATCH /api/orders ---');

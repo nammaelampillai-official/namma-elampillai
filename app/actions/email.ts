@@ -198,3 +198,66 @@ export async function sendOrderStatusUpdate(orderId: string, customerName: strin
         html
     });
 }
+
+export async function sendOrderConfirmationToCustomer(order: OrderDetails) {
+    const itemList = order.items.map(item =>
+        `<tr>
+            <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.name}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
+            <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">₹${item.price * item.quantity}</td>
+        </tr>`
+    ).join('');
+
+    const html = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; border: 1px solid #f0f0f0; border-radius: 10px; overflow: hidden;">
+            <div style="background: #800020; padding: 30px; text-align: center; color: white;">
+                <h1 style="margin: 0; font-family: serif;">Namma Elampillai</h1>
+                <p style="margin: 10px 0 0 0; opacity: 0.8; letter-spacing: 2px;">WEAVING HERITAGE</p>
+            </div>
+            
+            <div style="padding: 30px;">
+                <h2 style="color: #800020; text-align: center;">Order Confirmed! ✅</h2>
+                <p>Dear <strong>${order.customerName}</strong>,</p>
+                <p>Thank you for shopping with Namma Elampillai. Your order for authentic handwoven sarees has been received and is being processed.</p>
+                
+                <div style="background: #fdfaf0; border: 1px solid #f3e8b0; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                    <p style="margin: 0;"><strong>Order ID:</strong> #${order.orderId}</p>
+                    <p style="margin: 5px 0 0 0;"><strong>Estimated Delivery:</strong> 5-7 Working Days</p>
+                </div>
+
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr style="background: #f9f9f9;">
+                            <th style="padding: 10px; text-align: left; border-bottom: 2px solid #eee;">Item</th>
+                            <th style="padding: 10px; text-align: center; border-bottom: 2px solid #eee;">Qty</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #eee;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemList}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" style="padding: 15px 10px; text-align: right; font-weight: bold;">Total Paid:</td>
+                            <td style="padding: 15px 10px; text-align: right; font-weight: bold; color: #800020; font-size: 18px;">₹${order.total}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div style="margin-top: 30px; padding: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666;">
+                    <p><strong>Shipping Address:</strong><br>${order.shippingAddress.replace(/\n/g, '<br>')}</p>
+                </div>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; text-align: center; font-size: 12px; color: #999;">
+                <p>© 2025 Namma Elampillai - Connecting you to master weavers.</p>
+            </div>
+        </div>
+    `;
+
+    return await sendEmail({
+        to: order.customerEmail,
+        subject: `Your Namma Elampillai Order Confirmation - #${order.orderId}`,
+        html
+    });
+}

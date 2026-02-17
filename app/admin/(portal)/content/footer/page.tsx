@@ -34,12 +34,21 @@ export default function FooterAdminPage() {
         e.preventDefault();
         if (!content) return;
 
+        // Pre-flight check for payload size (Vercel limit is ~4.5MB)
+        const payloadString = JSON.stringify(content);
+        const payloadSizeMb = payloadString.length / (1024 * 1024);
+
+        if (payloadSizeMb > 10) {
+            alert(`The total content size (${payloadSizeMb.toFixed(1)}MB) is too large. Please use smaller images or remove some pictures before saving (Max 10MB).`);
+            return;
+        }
+
         setLoading(true);
         try {
             const res = await fetch('/api/content', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(content)
+                body: payloadString
             });
 
             if (!res.ok) {

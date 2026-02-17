@@ -33,8 +33,8 @@ export default function ImageUpload({ images, onChange, maxImages = 5 }: ImageUp
                 const file = files[i];
 
                 // Check for file size
-                if (file.size > 2 * 1024 * 1024) {
-                    alert(`Image "${file.name}" is too large (over 2MB). Please use a compressed image.`);
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`Image "${file.name}" is too large (over 10MB). Please use a smaller file.`);
                     continue;
                 }
 
@@ -91,7 +91,7 @@ export default function ImageUpload({ images, onChange, maxImages = 5 }: ImageUp
                         {uploading ? 'Uploading...' : `Upload Images (${images.length}/${maxImages})`}
                     </Button>
                     <p className="text-xs text-gray-500 mt-2">
-                        Supported formats: JPG, PNG, WebP. Max {maxImages} images.
+                        Supported formats: JPG, PNG, WebP. Max 10MB per image. Max {maxImages} images.
                     </p>
                 </div>
             )}

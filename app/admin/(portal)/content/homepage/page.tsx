@@ -48,8 +48,8 @@ export default function HomepageContentPage() {
         const payloadString = JSON.stringify(content);
         const payloadSizeMb = payloadString.length / (1024 * 1024);
 
-        if (payloadSizeMb > 4) {
-            alert(`The total content size (${payloadSizeMb.toFixed(1)}MB) is too large. Please use smaller images or remove some pictures before saving.`);
+        if (payloadSizeMb > 10) {
+            alert(`The total content size (${payloadSizeMb.toFixed(1)}MB) is too large. Please use smaller images or remove some pictures before saving (Max 10MB).`);
             return;
         }
 

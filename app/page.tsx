@@ -302,10 +302,17 @@ export default async function Home() {
               </div>
             ))}
           </div>
-          <div className="text-center mt-12">
-            <Button className="bg-heritage-maroon text-white hover:bg-heritage-maroon/90 px-8 py-6 text-lg rounded-2xl shadow-xl shadow-heritage-maroon/20">
-              Follow Us on Instagram
-            </Button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+            <Link href="https://www.instagram.com/namma.elampillai?igsh=MTFjNzJsYnFlaTRwNg==" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-[#E1306C] text-white hover:bg-[#E1306C]/90 px-8 py-6 text-lg rounded-2xl shadow-xl shadow-[#E1306C]/20 w-full sm:w-auto">
+                Follow Us on Instagram
+              </Button>
+            </Link>
+            <Link href="https://www.youtube.com/@Namma_Elampillai" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-[#FF0000] text-white hover:bg-[#FF0000]/90 px-8 py-6 text-lg rounded-2xl shadow-xl shadow-[#FF0000]/20 w-full sm:w-auto">
+                Follow Us on YouTube
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

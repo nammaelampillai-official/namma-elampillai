@@ -42,7 +42,7 @@ const SiteContentSchema: Schema = new Schema({
     socialFeed: { type: Object, required: true },
     youtubeFeed: { type: Object, required: true },
     siteName: { type: String, required: true },
-    logo: { type: String, required: true },
+    logo: { type: String, default: '' },
     paymentQR: { type: String, default: '/gpay-qr.png' },
     checkoutSettings: { type: Object, default: {} }
 }, { timestamps: true });

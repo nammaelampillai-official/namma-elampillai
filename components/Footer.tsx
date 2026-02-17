@@ -2,29 +2,33 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getSiteContent, type SiteContent } from '@/lib/dataStore';
+import { type SiteContent } from '@/lib/dataStore';
 import { MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 
-export default function Footer() {
-    const [content, setContent] = useState<SiteContent | null>(null);
+interface FooterProps {
+    initialContent?: SiteContent;
+}
+
+export default function Footer({ initialContent }: FooterProps) {
+    const [content, setContent] = useState<SiteContent | null>(initialContent || null);
 
     useEffect(() => {
-        const fetchBranding = async () => {
-            try {
-                const res = await fetch('/api/content');
-                const result = await res.json();
-                if (result.success && result.data) {
-                    setContent(result.data);
-                } else {
-                    setContent(getSiteContent());
+        // Only fetch if not provided via props (SSR support)
+        if (!initialContent) {
+            const fetchBranding = async () => {
+                try {
+                    const res = await fetch('/api/content');
+                    const result = await res.json();
+                    if (result.success && result.data) {
+                        setContent(result.data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching branding:', error);
                 }
-            } catch (error) {
-                console.error('Error fetching branding:', error);
-                setContent(getSiteContent());
-            }
-        };
-        fetchBranding();
-    }, []);
+            };
+            fetchBranding();
+        }
+    }, [initialContent]);
 
     if (!content) return null;
 

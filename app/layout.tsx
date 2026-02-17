@@ -34,11 +34,15 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-export default function RootLayout({
+import { getSiteContentServer } from "@/lib/server/data";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const content = await getSiteContentServer();
+
   return (
     <html lang="en">
       <body
@@ -49,7 +53,7 @@ export default function RootLayout({
             <NavBar />
             <CartSheet />
             {children}
-            <Footer />
+            <Footer initialContent={content} />
           </CartProvider>
         </AuthProvider>
       </body>

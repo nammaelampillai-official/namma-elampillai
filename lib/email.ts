@@ -9,8 +9,10 @@ export async function sendEmail({ subject, html, to }: { subject: string; html: 
     console.log(`[Email] Attempting to send email to: ${toList}`);
     console.log(`[Email] Subject: ${subject}`);
 
+    const gmailPassword = process.env.GMAIL_APP_PASSWORD || process.env.GMAIL_PASSWORD;
+
     // 1. Check if we have credentials
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    if (!process.env.GMAIL_USER || !gmailPassword) {
         console.log('---------------------------------------------------');
         console.warn('⚠️ EMAIL NOT SENT - MISSING CREDENTIALS in process.env');
         console.log(`To: ${toList}`);
@@ -26,7 +28,7 @@ export async function sendEmail({ subject, html, to }: { subject: string; html: 
             secure: true, // use SSL
             auth: {
                 user: process.env.GMAIL_USER,
-                pass: process.env.GMAIL_APP_PASSWORD,
+                pass: gmailPassword,
             },
             // Add a timeout to prevent hanging
             connectionTimeout: 10000,

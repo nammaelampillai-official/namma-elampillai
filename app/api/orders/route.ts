@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
 import fs from 'fs';
 import path from 'path';
+import { sendOrderNotification } from '@/app/actions/email';
 
 const OFFLINE_STORAGE_PATH = path.join(process.cwd(), 'lib', 'offline_orders.json');
 
@@ -120,6 +121,17 @@ export async function POST(request: Request) {
             const order = await Order.create(orderData);
             console.log('Order created successfully:', order._id);
 
+            // Send email notification from server (don't await to avoid blocking response)
+            sendOrderNotification({
+                orderId: order._id.toString(),
+                customerName: order.customerName,
+                customerEmail: order.customerEmail,
+                items: body.items, // Original items with names/prices
+                total: order.totalAmount,
+                paymentMethod: order.paymentMethod,
+                shippingAddress: order.address
+            }).catch(err => console.error('Failed to send order email:', err));
+
             return NextResponse.json({
                 success: true,
                 data: JSON.parse(JSON.stringify(order))
@@ -127,6 +139,18 @@ export async function POST(request: Request) {
         } catch (dbError: any) {
             console.error('Database/Connection Error during order creation, saving locally:', dbError);
             saveOfflineOrder(orderData);
+
+            // Even for offline/local storage orders, try to send the email alert
+            sendOrderNotification({
+                orderId: `OFFLINE_${Date.now().toString().slice(-4)}`,
+                customerName: orderData.customerName,
+                customerEmail: orderData.customerEmail,
+                items: body.items,
+                total: orderData.totalAmount,
+                paymentMethod: orderData.paymentMethod,
+                shippingAddress: orderData.address
+            }).catch(err => console.error('Failed to send offline order email:', err));
+
             return NextResponse.json({
                 success: true,
                 data: { ...orderData, _id: `temp_${Date.now()}`, note: 'Order saved to local storage' }

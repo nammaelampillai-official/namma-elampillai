@@ -77,9 +77,6 @@ export default function CheckoutPage() {
             shippingAddress: address
         };
 
-        // Send email notification (Wait for it to ensure delivery)
-        await sendOrderNotification(orderDetails).catch(console.error);
-
         try {
             const res = await fetch('/api/orders', {
                 method: 'POST',

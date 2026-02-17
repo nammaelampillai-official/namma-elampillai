@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
-
-import { getSiteContent } from './dataStore';
+import { getSiteContentServer } from './server/data';
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -11,7 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendEmail({ subject, html, to }: { subject: string; html: string; to?: string | string[] }) {
-    const siteContent = getSiteContent();
+    const siteContent = await getSiteContentServer();
     const recipients = to || siteContent.notificationEmails;
     const toList = Array.isArray(recipients) ? recipients.join(', ') : recipients;
 

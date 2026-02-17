@@ -28,18 +28,19 @@ export async function POST(request: Request) {
         delete body.updatedAt;
         delete body.__v;
 
-        let content = await SiteContent.findOne().sort({ createdAt: -1 });
+        // Use findOneAndUpdate to ensure all fields are updated regardless of nesting
+        const content = await SiteContent.findOneAndUpdate(
+            {},
+            { $set: body },
+            { new: true, upsert: true, runValidators: true }
+        );
 
-        if (content) {
-            Object.assign(content, body);
-            await content.save();
-        } else {
-            content = await SiteContent.create(body);
-        }
-
-        // Revalidate the frontend to show changes immediately
+        // Revalidate frontend to show changes immediately
         revalidatePath('/', 'layout');
+        revalidatePath('/');
+        revalidatePath('/products');
         revalidatePath('/about');
+        revalidatePath('/checkout');
 
         return NextResponse.json({ success: true, data: content });
     } catch (error: any) {

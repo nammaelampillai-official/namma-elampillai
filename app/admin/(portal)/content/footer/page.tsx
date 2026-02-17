@@ -41,16 +41,21 @@ export default function FooterAdminPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(content)
             });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`Server Error (${res.status}): ${text.slice(0, 100)}`);
+            }
+
             const result = await res.json();
             if (result.success) {
-                saveSiteContent(content);
                 alert('Footer content updated successfully!');
             } else {
                 throw new Error(result.error || 'Failed to save');
             }
         } catch (error) {
             console.error('Error saving content:', error);
-            alert('Failed to save content');
+            alert(`Failed to save content: ${error instanceof Error ? error.message : 'Unknown Error'}`);
         } finally {
             setLoading(false);
         }

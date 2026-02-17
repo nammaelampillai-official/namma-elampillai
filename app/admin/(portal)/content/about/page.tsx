@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import ImageUpload from '@/components/admin/ImageUpload';
-import { getSiteContent, saveSiteContent, type SiteContent } from '@/lib/dataStore';
+import { DEFAULT_SITE_CONTENT, type SiteContent } from '@/lib/dataStore';
 import { Save, Eye } from 'lucide-react';
 
 export default function AboutContentPage() {
@@ -13,8 +13,18 @@ export default function AboutContentPage() {
     const [content, setContent] = useState<SiteContent | null>(null);
 
     useEffect(() => {
-        const data = getSiteContent();
-        setContent(data);
+        const fetchContent = async () => {
+            try {
+                const res = await fetch('/api/content');
+                const result = await res.json();
+                if (result.success && result.data) {
+                    setContent(result.data);
+                }
+            } catch (error) {
+                console.error('Error fetching about content:', error);
+            }
+        };
+        fetchContent();
     }, []);
 
     const handleSubmit = async (e: FormEvent) => {
@@ -23,11 +33,26 @@ export default function AboutContentPage() {
 
         setLoading(true);
         try {
-            saveSiteContent(content);
-            alert('About page content updated successfully!');
+            const res = await fetch('/api/content', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(content)
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`Server Error (${res.status}): ${text.slice(0, 100)}`);
+            }
+
+            const result = await res.json();
+            if (result.success) {
+                alert('About page content updated successfully!');
+            } else {
+                throw new Error(result.error || 'Failed to save');
+            }
         } catch (error) {
             console.error('Error saving content:', error);
-            alert('Failed to save content');
+            alert(`Failed to save content: ${error instanceof Error ? error.message : 'Unknown Error'}`);
         } finally {
             setLoading(false);
         }

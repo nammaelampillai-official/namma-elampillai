@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
-import { getProducts } from '@/lib/dataStore';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,9 +44,21 @@ export async function POST(request: Request) {
     try {
         await dbConnect();
         const body = await request.json();
+
+        // Strip DB-managed fields
+        delete body._id;
+        delete body.createdAt;
+        delete body.__v;
+
         const product = await Product.create(body);
+
+        // Revalidate frontend to show new product
+        revalidatePath('/', 'layout');
+        revalidatePath('/products');
+
         return NextResponse.json({ success: true, data: product }, { status: 201 });
     } catch (error: any) {
+        console.error('Error creating product:', error);
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }

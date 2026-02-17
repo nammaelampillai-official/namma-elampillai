@@ -32,6 +32,12 @@ export default function ImageUpload({ images, onChange, maxImages = 5 }: ImageUp
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
 
+                // Check for file size
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`Image "${file.name}" is too large (over 2MB). Please use a compressed image.`);
+                    continue;
+                }
+
                 // Create a local URL for the image
                 const reader = new FileReader();
                 const imageUrl = await new Promise<string>((resolve) => {

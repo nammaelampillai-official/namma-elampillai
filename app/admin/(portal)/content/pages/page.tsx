@@ -14,17 +14,52 @@ export default function PagesAdmin() {
     const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
 
     useEffect(() => {
-        setContent(getSiteContent());
+        const fetchData = async () => {
+            try {
+                const res = await fetch('/api/content');
+                const result = await res.json();
+                if (result.success && result.data) {
+                    setContent(result.data);
+                } else {
+                    setContent(getSiteContent());
+                }
+            } catch (error) {
+                console.error('Error fetching content:', error);
+                setContent(getSiteContent());
+            }
+        };
+        fetchData();
     }, []);
 
     const selectedPage = content?.pages.find(p => p.id === selectedPageId);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!content) return;
         setLoading(true);
-        saveSiteContent(content);
-        alert('Changes saved successfully!');
-        setLoading(false);
+        try {
+            const res = await fetch('/api/content', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(content)
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`Server Error (${res.status}): ${text.slice(0, 100)}`);
+            }
+
+            const result = await res.json();
+            if (result.success) {
+                alert('Changes saved successfully!');
+            } else {
+                throw new Error(result.error || 'Failed to save');
+            }
+        } catch (error) {
+            console.error('Error saving content:', error);
+            alert(`Failed to save content: ${error instanceof Error ? error.message : 'Unknown Error'}`);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const addPage = () => {

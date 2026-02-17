@@ -44,25 +44,40 @@ export default function HomepageContentPage() {
         e.preventDefault();
         if (!content) return;
 
+        // Pre-flight check for payload size (Vercel limit is ~4.5MB)
+        const payloadString = JSON.stringify(content);
+        const payloadSizeMb = payloadString.length / (1024 * 1024);
+
+        if (payloadSizeMb > 4) {
+            alert(`The total content size (${payloadSizeMb.toFixed(1)}MB) is too large. Please use smaller images or remove some pictures before saving.`);
+            return;
+        }
+
         setLoading(true);
         try {
             const res = await fetch('/api/content', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(content)
+                body: payloadString
             });
+
+            if (!res.ok) {
+                const text = await res.text();
+                if (res.status === 413 || text.toLowerCase().includes('payload too large')) {
+                    throw new Error('Images are too large for the server. Please compress them further.');
+                }
+                throw new Error(`Server Error (${res.status}): ${text.slice(0, 100)}`);
+            }
+
             const result = await res.json();
             if (result.success) {
-                saveSiteContent(content); // Still update local for redundancy/offline
                 alert('Homepage content updated successfully!');
             } else {
                 throw new Error(result.error || 'Failed to save');
             }
         } catch (error) {
             console.error('Error saving content:', error);
-            // Fallback to local storage if API fails (e.g., DB not connected)
-            saveSiteContent(content);
-            alert(`Database connection failed (${error instanceof Error ? error.message : 'Unknown Error'}). Content saved to Local Storage instead.`);
+            alert(`Failed to save content: ${error instanceof Error ? error.message : 'Unknown Error'}`);
         } finally {
             setLoading(false);
         }

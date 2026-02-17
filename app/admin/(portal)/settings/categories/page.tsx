@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
-import { getSiteContent, saveSiteContent, type SiteContent } from '@/lib/dataStore';
+import { DEFAULT_SITE_CONTENT, type SiteContent } from '@/lib/dataStore';
 import { Plus, Trash2, Save, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,13 +13,38 @@ export default function SareeTypesPage() {
     const [newType, setNewType] = useState('');
 
     useEffect(() => {
-        setContent(getSiteContent());
+        const fetchContent = async () => {
+            try {
+                const res = await fetch('/api/content');
+                const result = await res.json();
+                if (result.success && result.data) {
+                    setContent(result.data);
+                }
+            } catch (error) {
+                console.error('Error fetching varieties:', error);
+            }
+        };
+        fetchContent();
     }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!content) return;
-        saveSiteContent(content);
-        alert('Saree varieties updated successfully!');
+        try {
+            const res = await fetch('/api/content', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(content)
+            });
+            const result = await res.json();
+            if (result.success) {
+                alert('Saree varieties updated successfully!');
+            } else {
+                throw new Error(result.error || 'Failed to save');
+            }
+        } catch (error) {
+            console.error('Error saving varieties:', error);
+            alert('Failed to save varieties');
+        }
     };
 
     const addType = () => {

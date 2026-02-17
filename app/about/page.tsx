@@ -1,22 +1,11 @@
-'use client';
+import Image from 'next/image';
+import { getSiteContentServer } from '@/lib/server/data';
 
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { getSiteContent, type AboutSection } from '@/lib/dataStore';
-
-export default function AboutPage() {
-    // Initialize with some default to avoid hydration mismatch if possible, 
-    // or just use null and show loader, or use the default from dataStore immediately.
-    // Since dataStore handles window check, we might get hydration mismatch if we render directly.
-    // Best practice for localStorage in Next.js: use useEffect to set state.
-    const [about, setAbout] = useState<AboutSection | null>(null);
-
-    useEffect(() => {
-        const content = getSiteContent();
-        setAbout(content.about);
-    }, []);
+export default async function AboutPage() {
+    const content = await getSiteContentServer();
+    const about = content.about;
 
     if (!about) {
         return (
@@ -47,7 +36,7 @@ export default function AboutPage() {
                 {/* Main Story */}
                 <section className="bg-white p-6 md:p-12 rounded-2xl shadow-sm border border-heritage-gold/10">
                     <div className="prose prose-lg mx-auto text-gray-700 leading-relaxed font-serif text-justify">
-                        {about.description.split('\n').map((paragraph, idx) => (
+                        {about.description.split('\n').map((paragraph: string, idx: number) => (
                             <p key={idx} className="mb-4">{paragraph}</p>
                         ))}
                     </div>

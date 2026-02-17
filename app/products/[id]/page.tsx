@@ -1,8 +1,8 @@
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
+import ProductActions from '@/components/products/ProductActions';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
-import { ShoppingCart, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
@@ -72,15 +72,7 @@ export default async function ProductPage({ params }: Props) {
                         <p>{product.material}</p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <Button size="lg" className="flex-1 w-full gap-2 bg-heritage-maroon text-heritage-gold border border-heritage-gold hover:bg-heritage-maroon/90">
-                            <ShoppingCart className="w-5 h-5" />
-                            Add to Cart
-                        </Button>
-                        <Button size="lg" variant="secondary" className="flex-1 w-full">
-                            Buy Now
-                        </Button>
-                    </div>
+                    <ProductActions product={product} />
 
                     <div className="mt-8 p-4 bg-heritage-cream/20 rounded-lg border border-heritage-gold/20 text-sm text-gray-600">
                         <p className="font-semibold mb-1">Authenticity Guaranteed</p>
